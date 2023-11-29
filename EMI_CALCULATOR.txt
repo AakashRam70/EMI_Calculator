@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMI Calculator</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+
+    <script>
+        function Amount(){
+            document.getElementById("yourAmount").value = document.getElementById("rangeAmount").value;
+        }
+        function Years(){
+            document.getElementById("yourYear").value = document.getElementById("rangeYear").value;
+        }
+        function Rate(){
+            document.getElementById("yourRate").value = document.getElementById("rangeRate").value;
+        }
+
+       // P x R x (1+R)^N / [ (1+R) ^ (N-1)] 
+       function btnCalculate(){
+            var P = parseInt(document.getElementById("yourAmount").value);
+            var N = parseInt(document.getElementById("yourYear").value) * 12;
+            var R  = parseFloat(document.getElementById("yourRate").value)/12/100;
+            /*
+                P x R x (1+R)^N / [(1+R)^N-1] where,
+                N is 10 years or 120 months
+                R is 7.2% = 7.2/12/100 = 0.006
+                EMI = Rs 10,00,000 * 0.006 * (1 + 0.006)120 / ((1 + 0.006)120 – 1) = Rs 11,714.
+            */
+            var ans = P * R * (Math.pow(1+R),N) / (Math.pow(1+R),(N-1);
+            document.getElementById("emiResult").innerHTML = "Monthly Installment : " + Math.round(ans).toLocaleString('en-in',{style:'currency', currency:'INR'});
+        }
+            
+    </script>
+</head>
+<body class="container-fluid bg-dark text-light">
+    <h1 class="text-center p-3">Presonal Loan EMI Calculator</h1>
+    <div class="bg-light text-dark p-4 m-4">
+        <div class="row">
+            <div class="col">
+                Amount You Need &#8377; <input id="yourAmount" type="text" placeholder="Enter Amount">
+            </div>
+            <div class="col">
+                for <input id="yourYear" type="text" placeholder="Year" size="4"> years
+            </div>
+            <div class="col">
+                Intrest rate <input id="yourRate" type="text" placeholder="rate" size="4"> %
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+              &#8377;10000 <input id="rangeAmount" onclick="Amount()" type="range" min="10000" value="10000" max="1000000">&#8377;1000000
+            </div>
+            <div class="col">
+              1 <input id="rangeYear" onclick="Years()" type="range" min="1" value="1" max="5">5
+            </div>
+            <div class="col">
+               10.25% <input id="rangeRate" onclick="Rate()" type="range" min="10.25" max="18.25" value="10.25" step="0.">18.25%
+            </div>
+        </div>
+        <div class="text-end pt-2">
+            <button onclick="btnCalculate()" class="btn btn-primary">Calculate</button>
+        </div>
+        <div>
+            <p id="emiResult"></p>
+        </div>
+    </div>
+   
+</body>
+</html>
